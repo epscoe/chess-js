@@ -10,7 +10,6 @@ import Queen from './Queen';
 export class ChessBoard extends React.Component {
     constructor(props) {
         super(props);
-        this.clickPiece = this.clickPiece.bind(this);
         this.clickSquare = this.clickSquare.bind(this);
 
         let pieces = [
@@ -25,14 +24,19 @@ export class ChessBoard extends React.Component {
             new Rook(new Position(7, 0), Black, this),
             new Knight(new Position(7, 1), Black, this),
             new Bishop(new Position(7, 2), Black, this),
-            new Queen(new Position(7, 3), Black, this),
-            new King(new Position(7, 4), Black, this),
+            new King(new Position(7, 3), Black, this),
+            new Queen(new Position(7, 4), Black, this),
             new Bishop(new Position(7, 5), Black, this),
             new Knight(new Position(7, 6), Black, this),
             new Rook(new Position(7, 7), Black, this),
         ];
 
-        this.state = { pieces, allowedMoves: [], moveHistory: [] };
+        this.state = {
+            pieces,
+            allowedMoves: [],
+            moveHistory: [],
+            whoseTurn: White
+        };
     }
 
     render() {
@@ -72,31 +76,12 @@ export class ChessBoard extends React.Component {
 
             let selectionClass = piece.selected ? 'selected' : 'unselected';
             piece.setClass(selectionClass);
-            return <OccupiedSquare classes={piece.classes} piece={piece} display={piece.identifier} handleClick={() => this.clickPiece(piece)} />;
+            return <OccupiedSquare classes={piece.classes} piece={piece} display={piece.identifier} handleClick={() => this.clickSquare(pos)} />;
         }
         else {
             let cls = this.allowedMoveAt(pos) ? 'empty-target' : 'unselected';
             return <EmptySquare className={cls} handleClick={() => this.clickSquare(pos)} />;
         }
-    }
-
-    // not sure if clickPiece and clickSquare should even be two different entrypoints
-    clickPiece(piece) {
-        console.log(`clicked ${piece.constructor.name} (${piece.pos.row}, ${piece.pos.col})`);
-
-        var previouslySelected = this.selectedPiece();
-        var move = this.allowedMoveAt(piece.pos);
-
-        if (move) {
-            move.execute(this);
-            this.deselectPiece(previouslySelected);
-        }
-        else if (piece !== previouslySelected) {
-            this.deselectPiece(previouslySelected);
-            this.selectPiece(piece);
-        }
-
-        this.forceUpdate();
     }
 
     deselectPiece(selectedPiece) {
@@ -114,18 +99,27 @@ export class ChessBoard extends React.Component {
     }
 
     clickSquare(pos) {
-        console.log(`clicked square (${pos.row}, ${pos.col})`);
-
+        var piece = this.pieceAt(pos);
         var move = this.allowedMoveAt(pos);
-        if (move) move.execute(this);
+        var previouslySelected = this.selectedPiece();
 
-        var piece = this.selectedPiece();
-        if (piece) piece.selected = false;
-        this.setState({ allowedMoves: [] });
+        console.log(`clicked square (${pos.row}, ${pos.col}) -- ${piece ? piece.constructor.name : 'empty'}`);
+
+        this.deselectPiece(previouslySelected);
+
+        if (move) this.executeMove(move);
+        else if (piece && piece !== previouslySelected && piece.color === this.state.whoseTurn) this.selectPiece(piece);
     }
 
     selectedPiece() {
         return this.state.pieces.find((piece) => piece.selected);
+    }
+
+    executeMove(move) {
+        move.execute(this);
+        this.state.moveHistory.push(move);
+        let nextTurn = this.state.whoseTurn === White ? Black : White;
+        this.setState({ whoseTurn: nextTurn });
     }
 
     movePiece(piece, targetPos) {

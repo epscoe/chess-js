@@ -86,7 +86,7 @@ export function evaluateMove(piece, pos, repeatable = true) {
 
     var targetPiece = piece.board.pieceAt(pos);
     if (targetPiece) {
-        if (targetPiece.color.colorName === piece.color.colorName) {
+        if (targetPiece.color === piece.color) {
             return new DisallowedMove();
         }
         else {
