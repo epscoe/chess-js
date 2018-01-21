@@ -1,4 +1,4 @@
-import { Position, DisallowedMove, NormalMove, CaptureMove, ChessPiece, repeatMove } from './PieceCommon';
+import { ChessPiece, repeatMove } from './PieceCommon';
 
 export default class Rook extends ChessPiece {
     constructor(pos, color, board) {
