@@ -16,17 +16,17 @@ export class Position {
 export const White = {
     colorName: 'white',
     colorHex: '#FFFFFF',
-    homeRow: 7,
-    enemyRow: 0,
-    advanceDirection: -1
+    homeRow: 0,
+    enemyRow: 7,
+    advanceDirection: 1
 };
 
 export const Black = {
     colorName: 'black',
     colorHex: '#000000',
-    homeRow: 0,
-    enemyRow: 7,
-    advanceDirection: 1
+    homeRow: 7,
+    enemyRow: 0,
+    advanceDirection: -1
 };
 
 export class Move {

@@ -6,7 +6,9 @@ import Knight from './Knight';
 import Bishop from './Bishop';
 import King from './King';
 import Queen from './Queen';
+import Pawn from './Pawn';
 
+// todo doesn't this egregiously mix the behavior of a chess game with its presentation? Why fix only for pieces?
 export class ChessBoard extends React.Component {
     constructor(props) {
         super(props);
@@ -30,6 +32,11 @@ export class ChessBoard extends React.Component {
             new Knight(new Position(7, 6), Black, this),
             new Rook(new Position(7, 7), Black, this),
         ];
+
+        for (let col = 0; col < this.props.size; col++) {
+            pieces.push(new Pawn(new Position(1, col), White, this));
+            pieces.push(new Pawn(new Position(6, col), Black, this));
+        }
 
         this.state = {
             pieces,
