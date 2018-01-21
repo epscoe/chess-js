@@ -48,19 +48,30 @@ export class ChessBoard extends React.Component {
 
     render() {
         this.state.pieces.forEach(piece => piece.resetClass());
-        var rows = [];
-        for (var row = 0; row < this.props.size; row++) {
-            var cells = [];
-            for (var col = 0; col < this.props.size; col++) {
+
+        let rows = [];
+        for (let row = 0; row < this.props.size; row++) {
+            let cells = [];
+            for (let col = 0; col < this.props.size; col++) {
                 let pos = new Position(row, col);
-                var content = this.cellContent(pos);
+                let content = this.cellContent(pos);
                 cells.push(<td key={row * this.props.size + col}>{content}</td>);
             }
 
-            rows.push(<tr key={row}>{cells}</tr>);
+            rows.push(<tr key={row}><th>{row + 1}</th>{cells}<th>{row + 1}</th></tr>);
         }
 
-        return <table><tbody>{rows}</tbody></table>;
+        var columnHeaders = [];
+        for (let col = 0; col < this.props.size; col++) {
+            var chr = String.fromCharCode(97 + col);
+            columnHeaders.push(<td key={col}>{chr}</td>);
+        }
+
+        return <table>
+            <thead><tr><th/>{columnHeaders}</tr></thead>
+            <tbody>{rows}</tbody>
+            <thead><tr><th/>{columnHeaders}</tr></thead>
+        </table>;
     }
 
     pieceAt(pos) {

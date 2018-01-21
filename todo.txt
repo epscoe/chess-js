@@ -1,0 +1,18 @@
+Move chess behavior out of the React component
+
+Allow rotating board based on player color
+
+Move notation
+
+Display move history
+
+Undoable moves
+
+Identify Check
+    Restrict allowed moves during Check
+
+Identify Checkmate
+    End game and add option to start another
+
+Pawn promotion
+Pawn en passant

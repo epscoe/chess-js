@@ -2,27 +2,37 @@ table {
   margin: auto;
 }
 
-td {
+tbody td {
   height: 40px;
   width: 40px;
   text-align: center;
+  vertical-align: middle;
   font-size: 2em;
   font-weight: bold;
 }
 
-tr:nth-child(even) td:nth-child(even) {
+th, thead td {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #555555;
+}
+
+tbody tr:nth-child(even) td:nth-child(even) {
   background-color: #999999;
 }
 
-tr:nth-child(even) td:nth-child(odd) {
+tbody tr:nth-child(even) td:nth-child(odd) {
   background-color: #226622;
 }
 
-tr:nth-child(odd) td:nth-child(even) {
+tbody tr:nth-child(odd) td:nth-child(even) {
   background-color: #226622;
 }
 
-tr:nth-child(odd) td:nth-child(odd) {
+tbody tr:nth-child(odd) td:nth-child(odd) {
   background-color: #999999;
 }
 
