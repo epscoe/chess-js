@@ -1,6 +1,8 @@
 ﻿import * as React from 'react';
-import { EmptySquare, OccupiedSquare } from './Pieces';
-import { White, Black, Position, CaptureMove, Rook, Knight } from './Rook';
+import { EmptySquare, OccupiedSquare } from './Squares';
+import { White, Black, Position, CaptureMove } from './PieceCommon';
+import Rook from './Rook';
+import Knight from './Knight';
 
 export class ChessBoard extends React.Component {
     constructor(props) {

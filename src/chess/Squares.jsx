@@ -15,17 +15,3 @@ export class OccupiedSquare extends React.Component {
         return <div style={{ color: piece.color.colorHex }} className={cls} onClick={ps.handleClick}>{ps.display}</div>;
     }
 }
-
-//export class Rook extends React.Component {
-//    render() {
-//        return <BasePiece {...this.props} display="R" />
-//    }
-//}
-
-//export class Knight extends React.Component {
-//    render() {
-//        return <BasePiece {...this.props} display="N" />
-//    }
-//}
-
-//export const PieceTypes = [Rook, Knight];
