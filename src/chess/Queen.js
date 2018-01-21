@@ -1,12 +1,12 @@
 import { Position, DisallowedMove, NormalMove, CaptureMove, ChessPiece, repeatMove } from './PieceCommon';
 
-export default class Rook extends ChessPiece {
+export default class Queen extends ChessPiece {
     constructor(pos, color, board) {
-        super('R', pos, color, board);
+        super('Q', pos, color, board);
     }
 
     availableMoves() {
-        let deltas = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+        let deltas = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]]
         return deltas.reduce((acc, delta) => acc.concat(repeatMove(this, delta)), []);
     }
 }

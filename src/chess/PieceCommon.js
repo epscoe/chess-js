@@ -80,3 +80,35 @@ export class ChessPiece {
     resetClass() { this.classes = []; }
     setClass(cls) { this.classes.push(cls); }
 }
+
+export function evaluateMove(piece, pos, repeatable = true) {
+    if (!piece.board.validPos(pos)) return new DisallowedMove();
+
+    var targetPiece = piece.board.pieceAt(pos);
+    if (targetPiece) {
+        if (targetPiece.color.colorName === piece.color.colorName) {
+            return new DisallowedMove();
+        }
+        else {
+            return new CaptureMove(false, piece.pos, pos);
+        }
+    }
+    else {
+        return new NormalMove(repeatable, piece.pos, pos);
+    }
+}
+
+export const repeatMove = (piece, delta) => {
+    let moves = [];
+    let nextPos = piece.pos;
+    let done = false;
+    while (!done) {
+        nextPos = nextPos.add(delta[0], delta[1]);
+        let result = evaluateMove(piece, nextPos);
+        if (result.allowed) moves.push(result);
+        done = !result.canContinue;
+    }
+
+    return moves;
+}
+

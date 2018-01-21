@@ -3,6 +3,9 @@ import { EmptySquare, OccupiedSquare } from './Squares';
 import { White, Black, Position, CaptureMove } from './PieceCommon';
 import Rook from './Rook';
 import Knight from './Knight';
+import Bishop from './Bishop';
+import King from './King';
+import Queen from './Queen';
 
 export class ChessBoard extends React.Component {
     constructor(props) {
@@ -13,10 +16,18 @@ export class ChessBoard extends React.Component {
         let pieces = [
             new Rook(new Position(0, 0), White, this),
             new Knight(new Position(0, 1), White, this),
+            new Bishop(new Position(0, 2), White, this),
+            new King(new Position(0, 3), White, this),
+            new Queen(new Position(0, 4), White, this),
+            new Bishop(new Position(0, 5), White, this),
             new Knight(new Position(0, 6), White, this),
             new Rook(new Position(0, 7), White, this),
             new Rook(new Position(7, 0), Black, this),
             new Knight(new Position(7, 1), Black, this),
+            new Bishop(new Position(7, 2), Black, this),
+            new Queen(new Position(7, 3), Black, this),
+            new King(new Position(7, 4), Black, this),
+            new Bishop(new Position(7, 5), Black, this),
             new Knight(new Position(7, 6), Black, this),
             new Rook(new Position(7, 7), Black, this),
         ];
