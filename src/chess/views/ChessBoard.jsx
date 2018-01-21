@@ -1,12 +1,12 @@
 ﻿import * as React from 'react';
 import { EmptySquare, OccupiedSquare } from './Squares';
-import { White, Black, Position, CaptureMove } from './PieceCommon';
-import Rook from './Rook';
-import Knight from './Knight';
-import Bishop from './Bishop';
-import King from './King';
-import Queen from './Queen';
-import Pawn from './Pawn';
+import { White, Black, Position, CaptureMove } from '../models/PieceCommon';
+import Rook from '../models/Rook';
+import Knight from '../models/Knight';
+import Bishop from '../models/Bishop';
+import King from '../models/King';
+import Queen from '../models/Queen';
+import Pawn from '../models/Pawn';
 
 // todo doesn't this egregiously mix the behavior of a chess game with its presentation? Why fix only for pieces?
 export class ChessBoard extends React.Component {

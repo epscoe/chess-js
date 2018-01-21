@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { ChessBoard } from './ChessBoard';
+import { ChessBoard } from './views/ChessBoard';
 import { ErrorBoundary } from './ErrorBoundary';
 import './chess.css';
 
