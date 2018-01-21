@@ -1,0 +1,48 @@
+table {
+  margin: auto;
+}
+
+td {
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+tr:nth-child(even) td:nth-child(even) {
+  background-color: #999999;
+}
+
+tr:nth-child(even) td:nth-child(odd) {
+  background-color: #226622;
+}
+
+tr:nth-child(odd) td:nth-child(even) {
+  background-color: #226622;
+}
+
+tr:nth-child(odd) td:nth-child(odd) {
+  background-color: #999999;
+}
+
+td div {
+  height: 100%;
+}
+
+td div.unselected {
+  border: 0.05em solid #222222;
+}
+
+td div.selected {
+  border: 0.05em solid #0033c0;
+  background-color: #6090F0;
+}
+
+td div.empty-target {
+  border: 0.1em solid #0088F0;
+}
+
+td div.attack-target {
+  border: 0.1em solid #F00000;
+}
