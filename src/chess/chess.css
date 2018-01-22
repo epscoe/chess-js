@@ -9,6 +9,7 @@ tbody td {
   vertical-align: middle;
   font-size: 2em;
   font-weight: bold;
+  user-select: none;
 }
 
 th, thead td {
@@ -18,6 +19,7 @@ th, thead td {
   font-size: 1.5em;
   font-weight: bold;
   color: #555555;
+  user-select: none;
 }
 
 tbody tr:nth-child(even) td:nth-child(even) {
