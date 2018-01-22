@@ -2,9 +2,8 @@ Move chess behavior out of the React component
 
 Allow rotating board based on player color
 
-Move notation
-
 Display move history
+Configure move notation style (there are many standards, apparently)
 
 Undoable moves
 

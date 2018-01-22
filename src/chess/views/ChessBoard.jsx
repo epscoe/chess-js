@@ -121,7 +121,7 @@ export class ChessBoard extends React.Component {
         var move = this.allowedMoveAt(pos);
         var previouslySelected = this.selectedPiece();
 
-        console.log(`clicked square (${pos.row}, ${pos.col}) -- ${piece ? piece.constructor.name : 'empty'}`);
+        console.log(`clicked square ${pos.notation()} -- ${piece ? piece.constructor.name : 'empty'}`);
 
         this.deselectPiece(previouslySelected);
 
@@ -134,6 +134,7 @@ export class ChessBoard extends React.Component {
     }
 
     executeMove(move) {
+        console.log(move.notation());
         move.execute(this);
         this.state.moveHistory.push(move);
         let nextTurn = this.state.whoseTurn === White ? Black : White;

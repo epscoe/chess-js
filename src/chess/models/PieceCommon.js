@@ -4,6 +4,11 @@ export class Position {
         this.col = col;
     }
 
+    notation() {
+        let colChar = String.fromCharCode(97 + this.col);
+        return `${colChar}${this.row + 1}`;
+    }
+
     add(rowDelta, colDelta) {
         return new Position(this.row + rowDelta, this.col + colDelta);
     }
@@ -38,6 +43,10 @@ export class Move {
     execute() {
         console.log('did nothing');
     }
+
+    notation() {
+        return 'INVALID';
+    }
 }
 
 export class DisallowedMove extends Move {
@@ -47,23 +56,37 @@ export class DisallowedMove extends Move {
 }
 
 export class NormalMove extends Move {
-    constructor(canContinue, sourcePos, targetPos) {
+    constructor(canContinue, piece, targetPos) {
         super(true, canContinue);
-        this.sourcePos = sourcePos;
+        this.piece = piece;
+        this.startPos = piece.pos;
         this.targetPos = targetPos;
     }
 
     execute(board) {
-        let piece = board.pieceAt(this.sourcePos);
-        piece.pos = this.targetPos;
+        this.piece.pos = this.targetPos;
+    }
+
+    notation() {
+        // this isn't standard algebraic
+        return `${this.startPos.notation()}-${this.targetPos.notation()}`;
     }
 }
 
 export class CaptureMove extends NormalMove {
+    constructor(canContinue, piece, targetPiece) {
+        super(canContinue, piece, targetPiece.pos);
+        this.targetPiece = targetPiece;
+    }
+
     execute(board) {
-        let capturedPiece = board.pieceAt(this.targetPos);
-        board.removePiece(capturedPiece);
+        board.removePiece(this.targetPiece);
         super.execute(board);
+    }
+
+    notation() {
+        // this isn't standard algebraic
+        return `${this.piece.identifier}x${this.targetPos.notation()}`;
     }
 }
 
@@ -90,11 +113,11 @@ export function evaluateMove(piece, pos, repeatable = true) {
             return new DisallowedMove();
         }
         else {
-            return new CaptureMove(false, piece.pos, pos);
+            return new CaptureMove(false, piece, targetPiece);
         }
     }
     else {
-        return new NormalMove(repeatable, piece.pos, pos);
+        return new NormalMove(repeatable, piece, pos);
     }
 }
 
