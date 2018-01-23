@@ -3,12 +3,11 @@ import { EmptySquare, OccupiedSquare } from './Squares';
 import { Position, CaptureMove } from '../models/PieceCommon';
 import ChessGame from '../models/ChessGame';
 
-export class ChessBoard extends React.Component {
+export default class ChessBoard extends React.Component {
     constructor(props) {
         super(props);
-        this.clickSquare = this.clickSquare.bind(this);
 
-        this.game = new ChessGame();
+        this.game = this.props.game || new ChessGame();
     }
 
     pieces() {
@@ -38,7 +37,7 @@ export class ChessBoard extends React.Component {
             .map((_, col) => String.fromCharCode(97 + col))
             .map(char => <td key={char}>{char}</td>)
 
-        return <table>
+        return <table className="vertical-section chessboard">
             <thead><tr><th />{columnHeaders}</tr></thead>
             <tbody>{rows}</tbody>
             <thead><tr><th />{columnHeaders}</tr></thead>
@@ -55,16 +54,11 @@ export class ChessBoard extends React.Component {
 
             let selectionClass = piece.selected ? 'selected' : 'unselected';
             piece.setClass(selectionClass);
-            return <OccupiedSquare classes={piece.classes} piece={piece} display={piece.identifier} handleClick={() => this.clickSquare(pos)} />;
+            return <OccupiedSquare classes={piece.classes} piece={piece} display={piece.identifier} handleClick={() => this.props.clickSquare(pos)} />;
         }
         else {
             let cls = targetingMove ? 'empty-target' : 'unselected';
-            return <EmptySquare className={cls} handleClick={() => this.clickSquare(pos)} />;
+            return <EmptySquare className={cls} handleClick={() => this.props.clickSquare(pos)} />;
         }
-    }
-
-    clickSquare(pos) {
-        this.game.clickSquare(pos);
-        this.forceUpdate();
     }
 }

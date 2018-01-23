@@ -5,13 +5,14 @@ import Bishop from './Bishop';
 import King from './King';
 import Queen from './Queen';
 import Pawn from './Pawn';
+import MoveHistory from './MoveHistory';
 
 export default class ChessGame {
     constructor() {
         this.size = 8;
         this.pieces = this.setupInitialPieces();
         this.allowedMoves = [];
-        this.moveHistory = [];
+        this.moveHistory = new MoveHistory();
         this.whoseTurn = White;
     }
 

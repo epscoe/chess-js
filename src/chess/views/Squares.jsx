@@ -1,13 +1,13 @@
 ﻿import * as React from 'react';
 
-export class EmptySquare extends React.Component {
+export class EmptySquare extends React.PureComponent {
     render() {
         var ps = this.props;
         return <div className={this.props.className} onClick={() => ps.handleClick(ps.x, ps.y)} />;
     }
 }
 
-export class OccupiedSquare extends React.Component {
+export class OccupiedSquare extends React.PureComponent {
     render() {
         var ps = this.props;
         var piece = ps.piece;

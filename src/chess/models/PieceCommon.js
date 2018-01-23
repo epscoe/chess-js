@@ -35,9 +35,10 @@ export const Black = {
 };
 
 export class Move {
-    constructor(allowed, canContinue) {
+    constructor(allowed, canContinue, color) {
         this.allowed = allowed;
         this.canContinue = canContinue;
+        this.color = color;
     }
 
     execute() {
@@ -51,13 +52,13 @@ export class Move {
 
 export class DisallowedMove extends Move {
     constructor() {
-        super(false, false);
+        super(false, false, undefined);
     }
 }
 
 export class NormalMove extends Move {
     constructor(canContinue, piece, targetPos) {
-        super(true, canContinue);
+        super(true, canContinue, piece.color);
         this.piece = piece;
         this.startPos = piece.pos;
         this.targetPos = targetPos;
@@ -75,7 +76,7 @@ export class NormalMove extends Move {
 
 export class CaptureMove extends NormalMove {
     constructor(canContinue, piece, targetPiece) {
-        super(canContinue, piece, targetPiece.pos);
+        super(canContinue, piece, targetPiece.pos, piece.color);
         this.targetPiece = targetPiece;
     }
 

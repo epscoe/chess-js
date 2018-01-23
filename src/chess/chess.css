@@ -2,7 +2,7 @@ table {
   margin: auto;
 }
 
-tbody td {
+.chessboard tbody td {
   height: 40px;
   width: 40px;
   text-align: center;
@@ -12,7 +12,7 @@ tbody td {
   user-select: none;
 }
 
-th, thead td {
+.chessboard th, .chessboard thead td {
   height: 30px;
   width: 30px;
   text-align: center;
@@ -22,39 +22,49 @@ th, thead td {
   user-select: none;
 }
 
-tbody tr:nth-child(even) td:nth-child(even) {
+.chessboard tbody tr:nth-child(even) td:nth-child(even) {
   background-color: #999999;
 }
 
-tbody tr:nth-child(even) td:nth-child(odd) {
+.chessboard tbody tr:nth-child(even) td:nth-child(odd) {
   background-color: #226622;
 }
 
-tbody tr:nth-child(odd) td:nth-child(even) {
+.chessboard tbody tr:nth-child(odd) td:nth-child(even) {
   background-color: #226622;
 }
 
-tbody tr:nth-child(odd) td:nth-child(odd) {
+.chessboard tbody tr:nth-child(odd) td:nth-child(odd) {
   background-color: #999999;
 }
 
-td div {
+.chessboard td div {
   height: 100%;
 }
 
-td div.unselected {
+.chessboard td div.unselected {
   border: 0.05em solid #222222;
 }
 
-td div.selected {
+.chessboard td div.selected {
   border: 0.05em solid #0033c0;
   background-color: #6090F0;
 }
 
-td div.empty-target {
+.chessboard td div.empty-target {
   border: 0.1em solid #22CCF0;
 }
 
-td div.attack-target {
+.chessboard td div.attack-target {
   border: 0.1em solid #F00000;
+}
+
+.vertical-section {
+  display: inline-block;
+  vertical-align: top;
+  margin: 2em;
+}
+
+.move-list td {
+  padding: 0em 1em;
 }
