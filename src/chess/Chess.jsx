@@ -15,8 +15,11 @@ export class Chess extends React.Component {
 
     render() {
         return <ErrorBoundary>
+            <div>
+                {this.game.isCurrentPlayerInCheck() ? <h2>{this.game.whoseTurn.colorName} is in Check!</h2> : ''}
+            </div>
             <ChessBoard game={this.game} clickSquare={this.clickSquare} />
-            <MoveList moveHistory={this.game.moveHistory}/>
+            <MoveList moveHistory={this.game.moveHistory} />
         </ErrorBoundary>
     }
 

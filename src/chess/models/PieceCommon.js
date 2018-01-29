@@ -19,7 +19,7 @@ export class Position {
 }
 
 export const White = {
-    colorName: 'white',
+    colorName: 'White',
     colorHex: '#FFFFFF',
     homeRow: 0,
     enemyRow: 7,
@@ -27,7 +27,7 @@ export const White = {
 };
 
 export const Black = {
-    colorName: 'black',
+    colorName: 'Black',
     colorHex: '#000000',
     homeRow: 7,
     enemyRow: 0,
@@ -39,10 +39,15 @@ export class Move {
         this.allowed = allowed;
         this.canContinue = canContinue;
         this.color = color;
+        this.done = false;
     }
 
     execute() {
         console.log('did nothing');
+    }
+
+    undo() {
+        console.log('undid nothing');
     }
 
     notation() {
@@ -66,6 +71,12 @@ export class NormalMove extends Move {
 
     execute(board) {
         this.piece.pos = this.targetPos;
+        this.done = true;
+    }
+
+    undo(board) {
+        this.piece.pos = this.startPos;
+        this.done = false;
     }
 
     notation() {
@@ -83,6 +94,11 @@ export class CaptureMove extends NormalMove {
     execute(board) {
         board.removePiece(this.targetPiece);
         super.execute(board);
+    }
+
+    undo(board) {
+        super.undo(board);
+        board.addPiece(this.targetPiece);
     }
 
     notation() {

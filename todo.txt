@@ -4,11 +4,10 @@ Configure move notation style (there are many standards, apparently)
 
 Undoable moves
 
-Identify Check
-    Restrict allowed moves during Check
-
 Identify Checkmate
     End game and add option to start another
 
 Pawn promotion
 Pawn en passant
+
+Move implementation is dumb. The only data on the base is really not required after the things are created.

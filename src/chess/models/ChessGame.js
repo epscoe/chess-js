@@ -1,4 +1,4 @@
-import { White, Black, Position } from './PieceCommon';
+import { White, Black, Position, CaptureMove } from './PieceCommon';
 import Rook from './Rook';
 import Knight from './Knight';
 import Bishop from './Bishop';
@@ -70,7 +70,10 @@ export default class ChessGame {
     selectPiece(piece) {
         if (piece) {
             piece.selected = true;
-            this.allowedMoves = piece.availableMoves();
+            this.allowedMoves = this.removeSelfCheckMoves(piece.availableMoves());
+            // I think we'll end up having to pre-compute all available moves for current player
+            // it's the only way to know that none of them resolves Check
+            // and if we have to do it in Check, might as well always
         }
     }
 
@@ -91,7 +94,7 @@ export default class ChessGame {
         console.log(move.notation());
         move.execute(this);
         this.moveHistory.push(move);
-        this.whoseTurn = this.whoseTurn === White ? Black : White;
+        this.whoseTurn = this.otherColor(this.whoseTurn);
     }
 
     movePiece(piece, targetPos) {
@@ -107,5 +110,39 @@ export default class ChessGame {
         else {
             throw 'captured piece not found!';
         }
+    }
+
+    addPiece(formerlyCapturedPiece) {
+        this.pieces.push(formerlyCapturedPiece);
+    }
+
+    otherColor(color) {
+        return color === White ? Black : White;
+    }
+
+    isCurrentPlayerInCheck() {
+        return this.isInCheck(this.whoseTurn);
+    }
+
+    isInCheck(defendingColor) {
+        let attackingColor = this.otherColor(defendingColor);
+        return this.pieces
+            .filter(p => p.color === attackingColor)
+            .map(p => p.availableMoves())
+            .some(this.includesKingAttack);
+    }
+
+    includesKingAttack(moveList) {
+        return moveList.some(move => move instanceof CaptureMove && move.targetPiece instanceof King);
+    }
+
+    removeSelfCheckMoves(moveList) {
+        return moveList.filter(move => {
+            move.execute(this);
+            let invalid = this.isInCheck(this.whoseTurn);
+            move.undo(this);
+
+            return !invalid;
+        })
     }
 }
