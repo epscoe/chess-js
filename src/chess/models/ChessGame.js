@@ -11,9 +11,10 @@ export default class ChessGame {
     constructor() {
         this.size = 8;
         this.pieces = this.setupInitialPieces();
-        this.allowedMoves = [];
+        this.allowedMovesForSelectedPiece = [];
+        this.allMoves = [];
         this.moveHistory = new MoveHistory();
-        this.whoseTurn = White;
+        this.setTurn(White);
     }
 
     setupInitialPieces() {
@@ -49,7 +50,8 @@ export default class ChessGame {
     }
 
     allowedMoveAt(pos) {
-        return this.allowedMoves.find(m => m.targetPos.equivalent(pos));
+        const piece = this.selectedPiece();
+        return this.allMoves.find(m => m.piece === piece && m.targetPos.equivalent(pos));
     }
 
     validPos(pos) {
@@ -57,23 +59,20 @@ export default class ChessGame {
     }
 
     selectedPiece() {
-        return this.pieces.find((piece) => piece.selected);
+        return this.pieces.find(piece => piece.selected);
     }
 
     deselectPiece(selectedPiece) {
         if (selectedPiece) {
             selectedPiece.selected = false;
-            this.allowedMoves = [];
+            this.allowedMovesForSelectedPiece = [];
         }
     }
 
     selectPiece(piece) {
         if (piece) {
             piece.selected = true;
-            this.allowedMoves = this.removeSelfCheckMoves(piece.availableMoves());
-            // I think we'll end up having to pre-compute all available moves for current player
-            // it's the only way to know that none of them resolves Check
-            // and if we have to do it in Check, might as well always
+            this.allowedMovesForSelectedPiece = this.allMoves.filter(m => m.piece === piece);
         }
     }
 
@@ -94,7 +93,15 @@ export default class ChessGame {
         console.log(move.notation());
         move.execute(this);
         this.moveHistory.push(move);
-        this.whoseTurn = this.otherColor(this.whoseTurn);
+        this.setTurn(this.otherColor(this.whoseTurn));
+    }
+
+    setTurn(color) {
+        this.whoseTurn = color;
+        this.allMoves = this.pieces
+            .filter(p => p.color === color)
+            .map(p => this.removeSelfCheckMoves(p.availableMoves()))
+            .reduce((acc, curr) => acc.concat(curr), []);
     }
 
     movePiece(piece, targetPos) {
@@ -132,6 +139,10 @@ export default class ChessGame {
             .some(this.includesKingAttack);
     }
 
+    isCheckmate() {
+        return this.isCurrentPlayerInCheck() && this.allMoves.length === 0;
+    }
+
     includesKingAttack(moveList) {
         return moveList.some(move => move instanceof CaptureMove && move.targetPiece instanceof King);
     }
@@ -139,7 +150,7 @@ export default class ChessGame {
     removeSelfCheckMoves(moveList) {
         return moveList.filter(move => {
             move.execute(this);
-            let invalid = this.isInCheck(this.whoseTurn);
+            let invalid = this.isInCheck(move.color);
             move.undo(this);
 
             return !invalid;

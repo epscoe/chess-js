@@ -1,11 +1,11 @@
 Allow rotating board based on player color
 
 Configure move notation style (there are many standards, apparently)
+    Moving notation out of the Move class makes it easier to add annotations like (like check (!)) too.
 
 Undoable moves
 
-Identify Checkmate
-    End game and add option to start another
+On Checkmate, end game and add option to start another
 
 Pawn promotion
 Pawn en passant

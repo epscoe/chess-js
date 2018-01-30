@@ -16,11 +16,20 @@ export class Chess extends React.Component {
     render() {
         return <ErrorBoundary>
             <div>
-                {this.game.isCurrentPlayerInCheck() ? <h2>{this.game.whoseTurn.colorName} is in Check!</h2> : ''}
+                {this.renderCheckCondition()}
             </div>
             <ChessBoard game={this.game} clickSquare={this.clickSquare} />
             <MoveList moveHistory={this.game.moveHistory} />
         </ErrorBoundary>
+    }
+
+    renderCheckCondition() {
+        if (this.game.isCheckmate())
+            return <h2>{this.game.otherColor(this.game.whoseTurn).colorName} wins!</h2>;
+        else if (this.game.isCurrentPlayerInCheck())
+            return <h2>{this.game.whoseTurn.colorName} is in Check!</h2>
+        else
+            return <br />;
     }
 
     clickSquare(pos) {
