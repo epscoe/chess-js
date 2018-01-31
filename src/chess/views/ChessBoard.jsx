@@ -37,7 +37,7 @@ export default class ChessBoard extends React.Component {
             .map((_, col) => String.fromCharCode(97 + col))
             .map(char => <td key={char}>{char}</td>)
 
-        return <table className="vertical-section chessboard">
+        return <table className="chessboard">
             <thead><tr><th />{columnHeaders}</tr></thead>
             <tbody>{rows}</tbody>
             <thead><tr><th />{columnHeaders}</tr></thead>

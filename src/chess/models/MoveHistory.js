@@ -13,7 +13,26 @@ export default class MoveHistory {
         return result;
     }
 
-    push(move) {
+    pushDone(move, isRedo) {
         this.doneMoves.push(move)
+        if (!isRedo) this.undoneMoves = [];
+    }
+
+    pushUndone(move) {
+        this.undoneMoves.push(move)
+    }
+
+    undoLast(game) {
+        if (this.doneMoves.length > 0) {
+            let move = this.doneMoves.pop();
+            game.undoMove(move);
+        }
+    }
+
+    redoLast(game) {
+        if (this.undoneMoves.length > 0) {
+            let move = this.undoneMoves.pop();
+            game.executeMove(move, true);
+        }
     }
 }

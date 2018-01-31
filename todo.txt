@@ -3,11 +3,13 @@ Allow rotating board based on player color
 Configure move notation style (there are many standards, apparently)
     Moving notation out of the Move class makes it easier to add annotations like (like check (!)) too.
 
-Undoable moves
-
 On Checkmate, end game and add option to start another
 
 Pawn promotion
 Pawn en passant
 
 Move implementation is dumb. The only data on the base is really not required after the things are created.
+
+Keyboard!
+    Arrow keys to navigate and space to select
+    Even better could be typing square notation e.g. "b2b4" to move pieces

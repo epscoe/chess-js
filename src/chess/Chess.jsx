@@ -11,6 +11,8 @@ export class Chess extends React.Component {
         this.clickSquare = this.clickSquare.bind(this);
 
         this.game = this.props.game || new ChessGame();
+        this.undo = this.undo.bind(this);
+        this.redo = this.redo.bind(this);
     }
 
     render() {
@@ -18,8 +20,17 @@ export class Chess extends React.Component {
             <div>
                 {this.renderCheckCondition()}
             </div>
-            <ChessBoard game={this.game} clickSquare={this.clickSquare} />
-            <MoveList moveHistory={this.game.moveHistory} />
+            <div className="vertical-section">
+                <ChessBoard game={this.game} clickSquare={this.clickSquare} />
+                <div>
+                    <button>New game</button>
+                    <button onClick={this.undo}>Undo</button>
+                    <button onClick={this.redo}>Redo</button>
+                </div>
+            </div>
+            <div className="vertical-section">
+                <MoveList moveHistory={this.game.moveHistory} />
+            </div>
         </ErrorBoundary>
     }
 
@@ -34,6 +45,16 @@ export class Chess extends React.Component {
 
     clickSquare(pos) {
         this.game.clickSquare(pos);
+        this.forceUpdate();
+    }
+
+    undo() {
+        this.game.undoLastMove();
+        this.forceUpdate();
+    }
+
+    redo() {
+        this.game.redoLastMove();
         this.forceUpdate();
     }
 }

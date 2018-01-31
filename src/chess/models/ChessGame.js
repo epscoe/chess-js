@@ -89,10 +89,17 @@ export default class ChessGame {
         else if (piece && piece !== previouslySelected && piece.color === this.whoseTurn) this.selectPiece(piece);
     }
 
-    executeMove(move) {
+    executeMove(move, isRedo = false) {
         console.log(move.notation());
         move.execute(this);
-        this.moveHistory.push(move);
+        this.moveHistory.pushDone(move, isRedo);
+        this.setTurn(this.otherColor(this.whoseTurn));
+    }
+
+    undoMove(move) {
+        console.log(`undid ${move.notation()}`);
+        move.undo(this);
+        this.moveHistory.pushUndone(move);
         this.setTurn(this.otherColor(this.whoseTurn));
     }
 
@@ -155,5 +162,13 @@ export default class ChessGame {
 
             return !invalid;
         })
+    }
+
+    undoLastMove() {
+        this.moveHistory.undoLast(this);
+    }
+
+    redoLastMove() {
+        this.moveHistory.redoLast(this);
     }
 }
